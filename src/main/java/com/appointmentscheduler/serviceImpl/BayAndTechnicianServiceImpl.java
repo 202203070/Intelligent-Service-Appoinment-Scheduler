@@ -1,7 +1,11 @@
 package com.appointmentscheduler.serviceImpl;
 
 import com.appointmentscheduler.entity.Bay;
+import com.appointmentscheduler.entity.BayScheduler;
 import com.appointmentscheduler.entity.Technician;
+import com.appointmentscheduler.entity.TechnicianScheduler;
+import com.appointmentscheduler.repository.BaySchedulerRepository;
+import com.appointmentscheduler.repository.TechnicianSchedulerRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,6 +16,13 @@ import java.util.List;
 
 @Service
 public class BayAndTechnicianServiceImpl {
+    private TechnicianSchedulerRepository technicianSchedulerRepository;
+    private BaySchedulerRepository baySchedulerRepository;
+
+    BayAndTechnicianServiceImpl(TechnicianSchedulerRepository technicianSchedulerRepository,BaySchedulerRepository baySchedulerRepository){
+        this.technicianSchedulerRepository=technicianSchedulerRepository;
+        this.baySchedulerRepository=baySchedulerRepository;
+    }
 
     // Configuration: 9:00 AM to 6:00 PM = 9 Hours = 18 Slots (30 mins each)
     private static final int TOTAL_SLOTS = 18;
@@ -50,10 +61,10 @@ public class BayAndTechnicianServiceImpl {
             // We label the outer loop so we can 'break' out of both loops instantly
             outerLoop:
             for (Technician tech : qualifiedTechs) {
-                int techMask = getScheduleBitmask(tech.getTechnicianId(), currentDay);
+                int techMask = getTechnicianBitmask(tech, currentDay);
 
                 for (Bay bay : qualifiedBays) {
-                    int bayMask = getScheduleBitmask(bay.getBayId(), currentDay);
+                    int bayMask = getBayBitmask(bay, currentDay);
 
                     // BITWISE OR: Combine constraints
                     int combinedMask = techMask | bayMask;
@@ -85,15 +96,16 @@ public class BayAndTechnicianServiceImpl {
             // Since we iterate days in order (Today -> Tomorrow), if we found anything today,
             // it is guaranteed to be earlier than anything tomorrow. We return immediately.
             if (foundOnThisDay) {
-                result.found = true;
-                result.technician = bestTech;
-                result.bay = bestBay;
-                result.startDateTime = mapSlotToDateTime(currentDay, bestSlotForDay);
-                return result;
+//                result.found = true;
+//                result.technician = bestTech;
+//                result.bay = bestBay;
+//                result.startDateTime = mapSlotToDateTime(currentDay, bestSlotForDay);
+//                return result;
+                return mapSlotToDateTime(currentDay,bestSlotForDay);
             }
         }
 
-        return result;
+        return null;
     }
 
     private int findConsecutiveZeros(int mask, int k, int startSearchFrom) {
@@ -116,8 +128,35 @@ public class BayAndTechnicianServiceImpl {
         return date.atTime(DAY_START).plusMinutes(slotIndex * 30L);
     }
 
-    private int getScheduleBitmask(Long resourceId, LocalDate date) {
-        // Mock DB Call
-        return 0;
+    public int getBayBitmask(Bay bay, LocalDate date) {
+        return baySchedulerRepository.findByBayIdAndDate(bay.getBayId(), date)
+                .map(BayScheduler::getBitmask)
+                .orElseGet(() -> {
+                    BayScheduler newEntry = new BayScheduler();
+                    newEntry.setBay(bay);
+                    newEntry.setDate(date);
+                    newEntry.setBitmask(0);
+                    baySchedulerRepository.save(newEntry);
+                    return 0;
+                });
+    }
+
+//    private int getScheduleBitmask(Long resourceId, LocalDate date) {
+//        // Mock DB Call
+//        return 0;
+//    }
+
+    public int getTechnicianBitmask(Technician tech, LocalDate date) {
+        return technicianSchedulerRepository.findByTechnicianIdAndDate(tech.getTechnicianId(), date)
+                .map(TechnicianScheduler::getBitmask)
+                .orElseGet(() -> {
+                    // No entry — create with bitmask 0
+                    TechnicianScheduler newEntry = new TechnicianScheduler();
+                    newEntry.setTechnician(tech);
+                    newEntry.setDate(date);
+                    newEntry.setBitmask(0);
+                    technicianSchedulerRepository.save(newEntry);
+                    return 0;
+                });
     }
 }

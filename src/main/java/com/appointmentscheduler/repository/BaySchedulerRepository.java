@@ -1,0 +1,13 @@
+package com.appointmentscheduler.repository;
+
+import com.appointmentscheduler.entity.BayScheduler;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDate;
+import java.util.Optional;
+
+@Repository
+public interface BaySchedulerRepository extends JpaRepository<BayScheduler, Long> {
+    Optional<BayScheduler> findByBayIdAndDate(Long bayId, LocalDate date);
+}

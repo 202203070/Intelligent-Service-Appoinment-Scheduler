@@ -9,23 +9,21 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "technician_schedule")
+@Table(name = "bay_schedule")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
-
-public class TechnicianScheduler {
+public class BayScheduler {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "technician_id", nullable = false)
-    private Technician technician;
+    @JoinColumn(name = "bay_id", nullable = false)
+    private Bay bay;
 
     private LocalDate date;
 
-    private Integer bitmask; // 18 bits → 18 slots
+    private Integer bitmask;
 }
