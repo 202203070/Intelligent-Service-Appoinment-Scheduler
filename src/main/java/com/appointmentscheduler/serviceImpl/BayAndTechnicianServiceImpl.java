@@ -30,7 +30,7 @@ public class BayAndTechnicianServiceImpl implements BayAndTechnicianService {
     private static final LocalTime DAY_START = LocalTime.of(9, 0);
 
     @Override
-    public LocalDateTime bayAndTechnicianAvailability(LocalDateTime partsArrivalTime, int serviceDurationMinutes, List<Technician> qualifiedTechs, List<Bay> qualifiedBays){
+    public LocalDateTime bayAndTechnicianAvailability(LocalDateTime partsArrivalTime, double serviceDurationMinutes, List<Technician> qualifiedTechs, List<Bay> qualifiedBays){
         // 1. Calculate required slots (e.g., 120 mins = 4 slots)
         int requiredSlots = (int) Math.ceil((double) serviceDurationMinutes / 30);
 

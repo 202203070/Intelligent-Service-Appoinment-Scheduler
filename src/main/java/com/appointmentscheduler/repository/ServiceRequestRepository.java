@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ServiceRequestRepository extends JpaRepository<ServiceRequest, Long> {
     @Query("SELECT s.serviceTime FROM ServiceRequest s WHERE s.serviceId = :serviceId")
-    Integer findServiceTimeByServiceId(@Param("serviceId") Long serviceId);
+    Double findServiceTimeByServiceId(@Param("serviceId") Long serviceId);
 }

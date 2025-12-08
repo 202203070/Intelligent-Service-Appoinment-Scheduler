@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 import { Search, Bell, User, ChevronDown, Calendar, Clock, AlertCircle, CheckCircle } from 'lucide-react';
+import {
+  DEMO_CUSTOMERS,
+  DEMO_SERVICES,
+  DEMO_INVENTORY,
+  DEMO_TECHNICIANS,
+  DEMO_BAYS,
+  DEMO_SERVICE_PARTS,
+} from './demoData';
 
 // API Configuration - points to Spring Boot base path
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api/v1';
@@ -53,32 +61,13 @@ function Step1CustomerIdentification({ onCustomerSelect, onVehicleSelect }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedCar, setSelectedCar] = useState(null);
-  const [customers, setCustomers] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  // Load customers from backend and normalize customerId to numeric (Long -> JS number)
-  useEffect(() => {
-    const fetchCustomers = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await axios.get(`${API_URL}/customers`);
-        const normalized = (response.data || []).map((c) => ({
-          ...c,
-          customerId: c.customerId != null ? Number(c.customerId) : c.customerId,
-        }));
-        setCustomers(normalized);
-      } catch (err) {
-        console.error('Error fetching customers', err);
-        setError('Failed to load customers');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCustomers();
-  }, []);
+  const [customers] = useState(
+    DEMO_CUSTOMERS.map((c) => ({
+      ...c,
+      customerId: c.id,
+      vehicleNames: c.vehicleNames || ['Demo Vehicle'],
+    }))
+  );
 
   const filteredCustomers = customers.filter(c =>
     c.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -198,51 +187,16 @@ function Step1CustomerIdentification({ onCustomerSelect, onVehicleSelect }) {
 function Step2Diagnosis({ selectedServices, onServicesChange, onProceed, onBack }) {
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Hard-coded service catalog (no backend call)
-  const services = [
-    {
-      serviceId: 1,
-      service: 'Squeaking Brakes',
-      issue: 'Squeaking Brakes',
-      serviceTime: 120,
-      serviceTimeMinutes: 120,
-    },
-    {
-      serviceId: 2,
-      service: 'Engine Light',
-      issue: 'Engine Light',
-      serviceTime: 180,
-      serviceTimeMinutes: 180,
-    },
-    {
-      serviceId: 3,
-      service: 'Overheating',
-      issue: 'Overheating',
-      serviceTime: 60,
-      serviceTimeMinutes: 60,
-    },
-    {
-      serviceId: 4,
-      service: 'Oil Change',
-      issue: 'Oil Change',
-      serviceTime: 60,
-      serviceTimeMinutes: 60,
-    },
-    {
-      serviceId: 5,
-      service: 'Dead Battery',
-      issue: 'Dead Battery',
-      serviceTime: 60,
-      serviceTimeMinutes: 60,
-    },
-    {
-      serviceId: 6,
-      service: 'Tire Issues',
-      issue: 'Tire Issues',
-      serviceTime: 90,
-      serviceTimeMinutes: 90,
-    },
-  ];
+  // Hard-coded service catalog from demo data
+  const services = DEMO_SERVICES.map((s) => ({
+    serviceId: s.id,
+    service: s.name,
+    issue: s.name,
+    serviceTime: s.durationMinutes,
+    serviceTimeMinutes: s.durationMinutes,
+    skill: s.skill,
+    bayType: s.bayType,
+  }));
 
   const filteredServices = services.filter(s =>
     s.service.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -338,53 +292,40 @@ function Step3ResourceIntelligence({ selectedServiceIds, backendReturnTime, onBa
   const [technicianName, setTechnicianName] = useState('Assigned Technician');
   const [parts, setParts] = useState({ partName: 'Required Parts', availableParts: 1 });
 
-  // Fetch representative technician & bay for the selected services
+  // Derive technician, bay and parts purely from demo data (no backend)
   useEffect(() => {
-    const fetchResources = async () => {
-      if (!selectedServiceIds || selectedServiceIds.length === 0) return;
+    if (!selectedServiceIds || selectedServiceIds.length === 0) return;
 
-      try {
-        // Technician (reuse the existing endpoint used in Step5Success)
-        const techResp = await axios.post(`${API_URL}/technicians/for-services`, selectedServiceIds);
-        const techs = techResp.data || [];
-        if (techs.length > 0) {
-          setTechnicianName(techs[0].name || 'Assigned Technician');
-        }
-      } catch (err) {
-        console.error('Error fetching technicians in Step3', err);
-      }
+    const firstService = DEMO_SERVICES.find((s) => s.id === selectedServiceIds[0]);
+    if (!firstService) return;
 
-      try {
-        // Bay
-        const bayResp = await axios.post(`${API_URL}/bays/for-services`, selectedServiceIds);
-        const bays = bayResp.data || [];
-        if (bays.length > 0) {
-          setBayType(bays[0].bayType || 'Service Bay');
-        }
-      } catch (err) {
-        console.error('Error fetching bays in Step3', err);
-      }
+    // Technician: pick first tech with matching skill in Texas
+    const tech = DEMO_TECHNICIANS.find(
+      (t) => t.level === firstService.skill && t.center === 'Texas'
+    );
+    if (tech) {
+      setTechnicianName(tech.name);
+    }
 
-      try {
-        // Inventory / Parts for the first selected service
-        const firstServiceId = selectedServiceIds[0];
-        if (firstServiceId != null) {
-          const invResp = await axios.post(`${API_URL}/inventory/for-service`, firstServiceId);
-          const items = invResp.data || [];
-          if (items.length > 0) {
-            const primary = items[0];
-            setParts({
-              partName: primary.partName,
-              availableParts: primary.availableParts
-            });
-          }
-        }
-      } catch (err) {
-        console.error('Error fetching inventory in Step3', err);
-      }
-    };
+    // Bay: pick first bay matching bayType and center Texas
+    const bay = DEMO_BAYS.find(
+      (b) => b.type === firstService.bayType && b.center === 'Texas'
+    );
+    if (bay) {
+      setBayType(`${bay.name} (${bay.type})`);
+    }
 
-    fetchResources();
+    // Parts: list required parts and compute min quantity across centers
+    const partNames = DEMO_SERVICE_PARTS[firstService.id] || [];
+    if (partNames.length > 0) {
+      const firstPart = partNames[0];
+      const inventoryForPart = DEMO_INVENTORY.filter((i) => i.part === firstPart);
+      const minQty = inventoryForPart.reduce(
+        (acc, item) => Math.min(acc, item.quantity),
+        Number.POSITIVE_INFINITY
+      );
+      setParts({ partName: firstPart, availableParts: isFinite(minQty) ? minQty : 0 });
+    }
   }, [selectedServiceIds]);
 
   if (!selectedServiceIds || selectedServiceIds.length === 0) return null;

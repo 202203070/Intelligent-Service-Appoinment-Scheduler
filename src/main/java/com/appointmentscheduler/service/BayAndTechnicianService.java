@@ -7,5 +7,5 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BayAndTechnicianService {
-    public LocalDateTime bayAndTechnicianAvailability(LocalDateTime partsArrivalTime, int serviceDurationMinutes, List<Technician> qualifiedTechs, List<Bay> qualifiedBays);
+    public LocalDateTime bayAndTechnicianAvailability(LocalDateTime partsArrivalTime, double serviceDurationMinutes, List<Technician> qualifiedTechs, List<Bay> qualifiedBays);
 }

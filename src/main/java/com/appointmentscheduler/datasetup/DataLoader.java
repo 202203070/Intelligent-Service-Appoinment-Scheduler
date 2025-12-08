@@ -14,8 +14,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -40,219 +38,207 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Only seed once for this demo
-        if (customerRepository.count() > 0) {
-            return;
-        }
 
-        // 6. Customers (from notes, IDs auto-generated instead of CUST-XXX)
-        Customer diana = new Customer();
-        diana.setName("Diana Prince");
-        diana.setPhoneNumber("555-0104");
-        diana.setLoyaltyPoints(80);
-        diana.setVehicleNames(Collections.singletonList("2018 Audi A4"));
+        if(customerRepository.count() > 0) return;
 
-        Customer bob = new Customer();
-        bob.setName("Bob Vance");
-        bob.setPhoneNumber("555-0101");
-        bob.setLoyaltyPoints(95);
-        bob.setVehicleNames(Collections.singletonList("2020 BMW X5"));
+        // INSERT CUSTOMERS
+        Customer c1 = new Customer();
+        c1.setName("Robert Bob Vance");
+        c1.setPhoneNumber("555-0101");
+        c1.setLoyaltyPoints(95);
+        c1.setVehicleNames(Arrays.asList("2022 BMW X5"));
 
-        Customer alice = new Customer();
-        alice.setName("Alice Smith");
-        alice.setPhoneNumber("555-0102");
-        alice.setLoyaltyPoints(15);
-        alice.setVehicleNames(Collections.singletonList("2018 Honda Civic"));
+        Customer c2 = new Customer();
+        c2.setName("Alice Smith");
+        c2.setPhoneNumber("555-0102");
+        c2.setLoyaltyPoints(15);
+        c2.setVehicleNames(Arrays.asList("2018 Honda Civic"));
 
-        customerRepository.saveAll(Arrays.asList(diana, bob, alice));
+        Customer c3 = new Customer();
+        c3.setName("Charlie Day");
+        c3.setPhoneNumber("555-0103");
+        c3.setLoyaltyPoints(40);
+        c3.setVehicleNames(Arrays.asList("2015 Ford F-150"));
 
-        // 3. Service Catalog (hard-coded services from table)
-        ServiceRequest squeakingBrakes = new ServiceRequest();
-        squeakingBrakes.setIssue("Squeaking Brakes");
-        squeakingBrakes.setService("Squeaking Brakes");
-        squeakingBrakes.setServiceTime(120.0); // Level B, GENERAL
-        squeakingBrakes.setCustomer(diana);
+        Customer c4 = new Customer();
+        c4.setName("Diana Prince");
+        c4.setPhoneNumber("555-0104");
+        c4.setLoyaltyPoints(80);
+        c4.setVehicleNames(Arrays.asList("2021 Tesla Model 3", "1967 Shelby Cobra"));
 
-        ServiceRequest engineLight = new ServiceRequest();
-        engineLight.setIssue("Engine Light");
-        engineLight.setService("Engine Light");
-        engineLight.setServiceTime(180.0); // Level A, GENERAL
-        engineLight.setCustomer(bob);
+        Customer c5 = new Customer();
+        c5.setName("Evan Peters");
+        c5.setPhoneNumber("555-0105");
+        c5.setLoyaltyPoints(50);
+        c5.setVehicleNames(Arrays.asList("2019 Toyota Camry"));
 
-        ServiceRequest overheating = new ServiceRequest();
-        overheating.setIssue("Overheating");
-        overheating.setService("Overheating");
-        overheating.setServiceTime(60.0); // Level B, GENERAL
-        overheating.setCustomer(diana);
+        Customer c6 = new Customer();
+        c6.setName("Frank Castle");
+        c6.setPhoneNumber("555-9111");
+        c6.setLoyaltyPoints(60);
+        c6.setVehicleNames(Arrays.asList("2020 Dodge Charger"));
 
-        ServiceRequest oilChange = new ServiceRequest();
-        oilChange.setIssue("Oil Change");
-        oilChange.setService("Oil Change");
-        oilChange.setServiceTime(60.0); // Level C, QUICK
-        oilChange.setCustomer(alice);
+        customerRepository.saveAll(Arrays.asList(c1, c2, c3, c4, c5, c6));
 
-        ServiceRequest deadBattery = new ServiceRequest();
-        deadBattery.setIssue("Dead Battery");
-        deadBattery.setService("Dead Battery");
-        deadBattery.setServiceTime(60.0); // Level C, QUICK
-        deadBattery.setCustomer(alice);
+        // INSERT SERVICES
+        ServiceRequest s1 = new ServiceRequest();
+        s1.setIssue("Squeaking Brakes");
+        s1.setService("Brake Pad Replacement");
+        s1.setServiceTime(120.0);
 
-        ServiceRequest tireIssues = new ServiceRequest();
-        tireIssues.setIssue("Tire Issues");
-        tireIssues.setService("Tire Issues");
-        tireIssues.setServiceTime(90.0); // Level B, TIRE_ISSUES
-        tireIssues.setCustomer(diana);
+        ServiceRequest s2 = new ServiceRequest();
+        s2.setIssue("Engine Light");
+        s2.setService("Diagnostic & Repair");
+        s2.setServiceTime(180.0);
 
-        List<ServiceRequest> services = Arrays.asList(
-                squeakingBrakes,
-                engineLight,
-                overheating,
-                oilChange,
-                deadBattery,
-                tireIssues
-        );
+        ServiceRequest s3 = new ServiceRequest();
+        s3.setIssue("Oil Change");
+        s3.setService("Oil & Filter Service");
+        s3.setServiceTime(60.0);
 
-        serviceRequestRepository.saveAll(services);
+        ServiceRequest s4 = new ServiceRequest();
+        s4.setIssue("Tire Issues");
+        s4.setService("Tire Replacement");
+        s4.setServiceTime(90.0);
 
-        // 4. Technicians (3 per level, Texas hub)
-        Technician techA1 = createTech("Tech A1", "Level A", Arrays.asList(engineLight));
-        Technician techA2 = createTech("Tech A2", "Level A", Arrays.asList(engineLight));
-        Technician techA3 = createTech("Tech A3", "Level A", Arrays.asList(engineLight));
+        ServiceRequest s5 = new ServiceRequest();
+        s5.setIssue("Dead Battery");
+        s5.setService("Battery Replacement");
+        s5.setServiceTime(60.0);
 
-        Technician techB1 = createTech("Tech B1", "Level B", Arrays.asList(squeakingBrakes, overheating, tireIssues));
-        Technician techB2 = createTech("Tech B2", "Level B", Arrays.asList(squeakingBrakes, overheating, tireIssues));
-        Technician techB3 = createTech("Tech B3", "Level B", Arrays.asList(squeakingBrakes, overheating, tireIssues));
+        ServiceRequest s6 = new ServiceRequest();
+        s6.setIssue("Overheating");
+        s6.setService("Diagnostic & Repair");
+        s6.setServiceTime(60.0);
 
-        Technician techC1 = createTech("Tech C1", "Level C", Arrays.asList(oilChange, deadBattery));
-        Technician techC2 = createTech("Tech C2", "Level C", Arrays.asList(oilChange, deadBattery));
-        Technician techC3 = createTech("Tech C3", "Level C", Arrays.asList(oilChange, deadBattery));
+        serviceRequestRepository.saveAll(Arrays.asList(s1,s2,s3,s4,s5,s6));
+//-------------------------------------------------------------------
+        Technician Ax = new Technician();
+        Ax.setName("Ax");
+        Ax.setLevel("A");
+        Ax.setServices(Arrays.asList(s2, s1, s6)); // example mapping
 
-        technicianRepository.saveAll(Arrays.asList(
-                techA1, techA2, techA3,
-                techB1, techB2, techB3,
-                techC1, techC2, techC3
-        ));
+        Technician Ay = new Technician();
+        Ay.setName("Ay");
+        Ay.setLevel("A");
+        Ay.setServices(Arrays.asList(s2, s1, s6));
 
-        // 5. Service Bays (2 per type, Texas hub conceptually)
-        Bay generalBay1 = new Bay();
-        generalBay1.setBayType("GENERAL");
-        generalBay1.setServiceRequests(Arrays.asList(squeakingBrakes, engineLight, overheating));
+        Technician Az = new Technician();
+        Az.setName("Ax");
+        Az.setLevel("A");
+        Az.setServices(Arrays.asList(s2, s1, s6));
 
-        Bay generalBay2 = new Bay();
-        generalBay2.setBayType("GENERAL");
-        generalBay2.setServiceRequests(Arrays.asList(squeakingBrakes, engineLight, overheating));
+        Technician Bx = new Technician();
+        Bx.setName("Bx");
+        Bx.setLevel("B");
+        Bx.setServices(Arrays.asList(s1, s3, s4));
 
-        Bay quickBay1 = new Bay();
-        quickBay1.setBayType("QUICK");
-        quickBay1.setServiceRequests(Arrays.asList(oilChange, deadBattery));
+        Technician By = new Technician();
+        By.setName("By");
+        By.setLevel("B");
+        By.setServices(Arrays.asList(s1, s3, s4));
 
-        Bay quickBay2 = new Bay();
-        quickBay2.setBayType("QUICK");
-        quickBay2.setServiceRequests(Arrays.asList(oilChange, deadBattery));
+        Technician Bz = new Technician();
+        Bz.setName("Bz");
+        Bz.setLevel("B");
+        Bz.setServices(Arrays.asList(s1, s3, s4));
 
-        Bay tireBay1 = new Bay();
-        tireBay1.setBayType("TIRE_ISSUES");
-        tireBay1.setServiceRequests(Arrays.asList(tireIssues));
+        Technician Cx = new Technician();
+        Cx.setName("Cx");
+        Cx.setLevel("C");
+        Cx.setServices(Arrays.asList(s3, s5));
 
-        Bay tireBay2 = new Bay();
-        tireBay2.setBayType("TIRE_ISSUES");
-        tireBay2.setServiceRequests(Arrays.asList(tireIssues));
+        Technician Cy = new Technician();
+        Cy.setName("Cy");
+        Cy.setLevel("C");
+        Cy.setServices(Arrays.asList(s3, s5));
 
-        bayRepository.saveAll(Arrays.asList(
-                generalBay1, generalBay2,
-                quickBay1, quickBay2,
-                tireBay1, tireBay2
-        ));
+        Technician Cz = new Technician();
+        Cz.setName("Cz");
+        Cz.setLevel("C");
+        Cz.setServices(Arrays.asList(s3, s5));
 
-        // 1 & 2. Inventory – parts for BOTH centers with special rules
-        // Texas center
-        createInventoryForCenter("Texas",
-                new String[]{
-                        "Brake Pads", "Rotors", "OBDII Scanner", "Coolant", "Thermostat",
-                        "Engine Oil", "Oil Filter", "Battery", "New Tires", "Valve Stems"
-                },
-                new int[]{
-                        0,    // Brake Pads – out of stock in Texas for Predictive Booking
-                        100,  // Rotors
-                        100,  // OBDII Scanner
-                        100,  // Coolant
-                        100,  // Thermostat
-                        100,  // Engine Oil
-                        100,  // Oil Filter
-                        100,  // Battery
-                        100,  // New Tires
-                        100   // Valve Stems
-                },
-                new ServiceRequest[][]{
-                        {squeakingBrakes},               // Brake Pads
-                        {squeakingBrakes},               // Rotors
-                        {engineLight},                   // OBDII Scanner
-                        {overheating},                   // Coolant
-                        {overheating},                   // Thermostat
-                        {oilChange},                     // Engine Oil
-                        {oilChange},                     // Oil Filter
-                        {deadBattery},                   // Battery
-                        {tireIssues},                    // New Tires
-                        {tireIssues}                     // Valve Stems
-                }
-        );
+        technicianRepository.saveAll(Arrays.asList(Ax,Ay,Az, Bx, By, Bz, Cx, Cy, Cz));
 
-        // London center
-        createInventoryForCenter("London",
-                new String[]{
-                        "Brake Pads", "Rotors", "OBDII Scanner", "Coolant", "Thermostat",
-                        "Engine Oil", "Oil Filter", "Battery", "New Tires", "Valve Stems"
-                },
-                new int[]{
-                        100,  // Brake Pads
-                        100,  // Rotors
-                        100,  // OBDII Scanner
-                        100,  // Coolant
-                        100,  // Thermostat
-                        100,  // Engine Oil
-                        100,  // Oil Filter
-                        100,  // Battery
-                        0,    // New Tires – out of stock in London for Blocked Calendar
-                        100   // Valve Stems
-                },
-                new ServiceRequest[][]{
-                        {squeakingBrakes},               // Brake Pads
-                        {squeakingBrakes},               // Rotors
-                        {engineLight},                   // OBDII Scanner
-                        {overheating},                   // Coolant
-                        {overheating},                   // Thermostat
-                        {oilChange},                     // Engine Oil
-                        {oilChange},                     // Oil Filter
-                        {deadBattery},                   // Battery
-                        {tireIssues},                    // New Tires
-                        {tireIssues}                     // Valve Stems
-                }
-        );
+//        -----------------------------------------------------------------------------------
 
-    }
+        Bay general = new Bay();
+        general.setBayType("General Repair");
+        general.setServiceRequests(Arrays.asList(s1, s2, s6));
 
-    private Technician createTech(String name, String level, List<ServiceRequest> services) {
-        Technician t = new Technician();
-        t.setName(name);
-        t.setLevel(level);
-        t.setServices(services);
-        return t;
-    }
+        Bay quick = new Bay();
+        quick.setBayType("Quick Service");
+        quick.setServiceRequests(Arrays.asList(s3, s5));
 
-    private void createInventoryForCenter(String centerName,
-                                          String[] partNames,
-                                          int[] quantities,
-                                          ServiceRequest[][] serviceMappings) {
-        for (int i = 0; i < partNames.length; i++) {
-            Inventory inv = new Inventory();
-            // centerName is used in the business logic / demo flows only,
-            // entity does not currently have a center/location column,
-            // so we embed it in the partName for now.
-            inv.setPartName(centerName + " - " + partNames[i]);
-            inv.setAvailableParts(quantities[i]);
-            inv.setOrderedParts(0);
-            inv.setServiceRequests(Arrays.asList(serviceMappings[i]));
-            inventoryRepository.save(inv);
-        }
+        Bay tire = new Bay();
+        tire.setBayType("Tire and Wheel");
+        tire.setServiceRequests(Arrays.asList(s4));
+
+        bayRepository.saveAll(Arrays.asList(general, quick, tire));
+
+//        ---------------------------------------------------------
+
+        Inventory i1 = new Inventory();
+        i1.setPartName("Brake Pads");
+        i1.setAvailableParts(3);
+        i1.setOrderedParts(0);
+        i1.setServiceRequests(Arrays.asList(s1));
+
+        Inventory i7 = new Inventory();
+        i7.setPartName("Rotor");
+        i7.setAvailableParts(3);
+        i7.setOrderedParts(0);
+        i7.setServiceRequests(Arrays.asList(s1));
+
+        Inventory i2 = new Inventory();
+        i2.setPartName("OBD Scanner");
+        i2.setAvailableParts(2);
+        i2.setOrderedParts(0);
+        i2.setServiceRequests(Arrays.asList(s2));
+
+        Inventory i3 = new Inventory();
+        i3.setPartName("Engine Oil");
+        i3.setAvailableParts(5);
+        i3.setOrderedParts(0);
+        i3.setServiceRequests(Arrays.asList(s3));
+
+        Inventory i9 = new Inventory();
+        i9.setPartName("Filter");
+        i9.setAvailableParts(5);
+        i9.setOrderedParts(0);
+        i9.setServiceRequests(Arrays.asList(s3));
+
+        Inventory i4 = new Inventory();
+        i4.setPartName("Tires");
+        i4.setAvailableParts(4);
+        i4.setOrderedParts(0);
+        i4.setServiceRequests(Arrays.asList(s4));
+
+        Inventory i10 = new Inventory();
+        i10.setPartName("Valvestems");
+        i10.setAvailableParts(4);
+        i10.setOrderedParts(0);
+        i10.setServiceRequests(Arrays.asList(s4));
+
+        Inventory i5 = new Inventory();
+        i5.setPartName("Battery");
+        i5.setAvailableParts(1);
+        i5.setOrderedParts(0);
+        i5.setServiceRequests(Arrays.asList(s5));
+
+        Inventory i6 = new Inventory();
+        i6.setPartName("Coolant");
+        i6.setAvailableParts(2);
+        i6.setOrderedParts(0);
+        i6.setServiceRequests(Arrays.asList(s6));
+
+        Inventory i8 = new Inventory();
+        i8.setPartName("Thermostat");
+        i8.setAvailableParts(2);
+        i8.setOrderedParts(0);
+        i8.setServiceRequests(Arrays.asList(s6));
+
+        inventoryRepository.saveAll(Arrays.asList(i1,i2,i3,i4,i5,i6,i7,i8,i9,i10));
+
     }
 }
