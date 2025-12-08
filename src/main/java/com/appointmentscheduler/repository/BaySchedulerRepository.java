@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface BaySchedulerRepository extends JpaRepository<BayScheduler, Long> {
-    Optional<BayScheduler> findByBayIdAndDate(Long bayId, LocalDate date);
+    Optional<BayScheduler> findByBay_BayIdAndDate(Long bayId, LocalDate date);
 }

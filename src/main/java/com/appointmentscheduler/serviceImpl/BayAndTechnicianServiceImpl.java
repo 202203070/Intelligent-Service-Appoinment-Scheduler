@@ -129,7 +129,7 @@ public class BayAndTechnicianServiceImpl {
     }
 
     public int getBayBitmask(Bay bay, LocalDate date) {
-        return baySchedulerRepository.findByBayIdAndDate(bay.getBayId(), date)
+        return baySchedulerRepository.findByBay_BayIdAndDate(bay.getBayId(), date)
                 .map(BayScheduler::getBitmask)
                 .orElseGet(() -> {
                     BayScheduler newEntry = new BayScheduler();
@@ -147,7 +147,7 @@ public class BayAndTechnicianServiceImpl {
 //    }
 
     public int getTechnicianBitmask(Technician tech, LocalDate date) {
-        return technicianSchedulerRepository.findByTechnicianIdAndDate(tech.getTechnicianId(), date)
+        return technicianSchedulerRepository.findByTechnician_TechnicianIdAndDate(tech.getTechnicianId(), date)
                 .map(TechnicianScheduler::getBitmask)
                 .orElseGet(() -> {
                     // No entry — create with bitmask 0

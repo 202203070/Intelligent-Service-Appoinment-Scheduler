@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface TechnicianSchedulerRepository extends JpaRepository<TechnicianScheduler, Long> {
-    Optional<TechnicianScheduler> findByTechnicianIdAndDate(Long technicianId, LocalDate date);
+    Optional<TechnicianScheduler> findByTechnician_TechnicianIdAndDate(Long technicianId, LocalDate date);
 }
