@@ -12,15 +12,18 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-
-
 public class ServiceRequest {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long serviceId;
 
     private String issue;
     private Double serviceTime;
     private String service;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
     @ManyToMany(mappedBy = "serviceRequests")
     private List<Bay> bays;

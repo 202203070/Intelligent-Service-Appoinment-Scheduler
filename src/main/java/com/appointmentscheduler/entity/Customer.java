@@ -3,8 +3,10 @@ package com.appointmentscheduler.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "customer")
 @Builder
+@Data
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +32,5 @@ public class Customer {
             joinColumns = @JoinColumn(name = "customer_id")
     )
     @Column(name = "vehicle_name")
-    private List<String> vehicleNames;
+    private List<String> vehicleNames = new ArrayList<>();
 }
