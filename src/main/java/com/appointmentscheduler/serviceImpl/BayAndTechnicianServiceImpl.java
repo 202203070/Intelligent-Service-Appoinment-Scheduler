@@ -6,6 +6,7 @@ import com.appointmentscheduler.entity.Technician;
 import com.appointmentscheduler.entity.TechnicianScheduler;
 import com.appointmentscheduler.repository.BaySchedulerRepository;
 import com.appointmentscheduler.repository.TechnicianSchedulerRepository;
+import com.appointmentscheduler.service.BayAndTechnicianService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,7 +16,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
-public class BayAndTechnicianServiceImpl {
+public class BayAndTechnicianServiceImpl implements BayAndTechnicianService {
     private TechnicianSchedulerRepository technicianSchedulerRepository;
     private BaySchedulerRepository baySchedulerRepository;
 
@@ -27,6 +28,8 @@ public class BayAndTechnicianServiceImpl {
     // Configuration: 9:00 AM to 6:00 PM = 9 Hours = 18 Slots (30 mins each)
     private static final int TOTAL_SLOTS = 18;
     private static final LocalTime DAY_START = LocalTime.of(9, 0);
+
+    @Override
     public LocalDateTime bayAndTechnicianAvailability(LocalDateTime partsArrivalTime, int serviceDurationMinutes, List<Technician> qualifiedTechs, List<Bay> qualifiedBays){
         // 1. Calculate required slots (e.g., 120 mins = 4 slots)
         int requiredSlots = (int) Math.ceil((double) serviceDurationMinutes / 30);

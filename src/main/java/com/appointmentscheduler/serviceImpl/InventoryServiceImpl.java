@@ -2,6 +2,7 @@ package com.appointmentscheduler.serviceImpl;
 
 import com.appointmentscheduler.entity.Inventory;
 import com.appointmentscheduler.repository.InventoryRepository;
+import com.appointmentscheduler.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,14 +10,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class InventoryServiceImpl {
+public class InventoryServiceImpl implements InventoryService {
     private InventoryRepository inventoryRepository;
 
     InventoryServiceImpl(InventoryRepository inventoryRepository){
         this.inventoryRepository = inventoryRepository;
     }
-    public LocalDateTime inventoryAvailability(List<Integer> serviceIds){
-        List<Inventory> inventoryList = inventoryRepository.findPartsForServices(serviceIds);
+    public LocalDateTime inventoryAvailability(int serviceId){
+        List<Inventory> inventoryList = inventoryRepository.findPartsForService(serviceId);
         int max=0;
         for(Inventory inventory : inventoryList){
             if(inventory.getAvailableParts()==0){

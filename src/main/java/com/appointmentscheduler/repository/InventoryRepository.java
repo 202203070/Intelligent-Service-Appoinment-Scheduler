@@ -10,6 +10,9 @@ import java.util.List;
 
 @Repository
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
-    @Query("SELECT i FROM Inventory i JOIN i.serviceRequests s WHERE s.serviceId IN :serviceIds")
-    List<Inventory> findPartsForServices(@Param("serviceIds") List<Integer> serviceIds);
+//    @Query("SELECT i FROM Inventory i JOIN i.serviceRequests s WHERE s.serviceId IN :serviceIds")
+//    List<Inventory> findPartsForServices(@Param("serviceIds") List<Integer> serviceIds);
+
+    @Query("SELECT i FROM Inventory i JOIN i.serviceRequests s WHERE s.serviceId = :serviceId")
+    List<Inventory> findPartsForService(@Param("serviceId") int serviceId);
 }
