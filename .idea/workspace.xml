@@ -4,16 +4,37 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b409f995-1749-406f-86ba-bae781538d1c" name="Changes" comment="" />
+    <list default="true" id="b409f995-1749-406f-86ba-bae781538d1c" name="Changes" comment="second commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/appointmentscheduler/entity/Bay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/appointmentscheduler/entity/Bay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/appointmentscheduler/entity/BayScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/appointmentscheduler/entity/BayScheduler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/appointmentscheduler/entity/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/appointmentscheduler/entity/Inventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/appointmentscheduler/entity/Technician.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/appointmentscheduler/entity/Technician.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/appointmentscheduler/entity/TechnicianScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/appointmentscheduler/entity/TechnicianScheduler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/appointmentscheduler/repository/InventoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/appointmentscheduler/repository/InventoryRepository.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="36UGk0hgN51HooohLSV8vo9N9uc" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -32,12 +53,20 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.CodeDuoApplication">
+    <configuration name="AppointmentSchedulerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="AppointmentScheduler" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.appointmentscheduler.AppointmentSchedulerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CodeDuoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="CodeDuo" />
+      <module name="AppointmentScheduler" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="appointmentscheduler.CodeDuoApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -58,5 +87,21 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="first commit" />
+    <MESSAGE value="second commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="second commit" />
   </component>
 </project>

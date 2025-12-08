@@ -26,4 +26,30 @@ public class Bay {
             inverseJoinColumns = @JoinColumn(name = "service_id")
     )
     private List<ServiceRequest> serviceRequests;
+
+
+    public Long getBayId() {
+        return bayId;
+    }
+
+    public void setBayId(Long bayId) {
+        this.bayId = bayId;
+    }
+
+    public String getBayType() {
+        return bayType;
+    }
+
+    public void setBayType(String bayType) {
+        this.bayType = bayType;
+    }
+
+    public List<ServiceRequest> getServiceRequests() {
+        return serviceRequests;
+    }
+
+    public void setServiceRequests(List<ServiceRequest> serviceRequests) {
+        this.serviceRequests = serviceRequests;
+    }
+
 }

@@ -28,4 +28,36 @@ public class TechnicianScheduler {
     private LocalDate date;
 
     private Integer bitmask; // 18 bits → 18 slots
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Technician getTechnician() {
+        return technician;
+    }
+
+    public void setTechnician(Technician technician) {
+        this.technician = technician;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Integer getBitmask() {
+        return bitmask;
+    }
+
+    public void setBitmask(Integer bitmask) {
+        this.bitmask = bitmask;
+    }
 }
