@@ -44,7 +44,7 @@ public class ServiceController {
             List<Bay> bays = bayRepository.findBaysByServiceId(Long.valueOf(services.get(i)));
 
 
-            LocalDateTime currentDateTime= this.bayAndTechnicianService.bayAndTechnicianAvailability(this.inventoryService.inventoryAvailability(services.get(i)),this.serviceRequestRepository.findServiceTimeByServiceId(Long.valueOf(services.get(i))),technicians,bays);
+            LocalDateTime currentDateTime= this.bayAndTechnicianService.bayAndTechnicianAvailability(this.inventoryService.inventoryAvailability(services.get(i)),(this.serviceRequestRepository.findServiceTimeByServiceId(Long.valueOf(services.get(i)))),technicians,bays);
             if (maxDateTime == null || currentDateTime.isAfter(maxDateTime)) {
                 maxDateTime = currentDateTime;
             }

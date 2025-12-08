@@ -9,9 +9,11 @@ import com.appointmentscheduler.repository.InventoryRepository;
 import com.appointmentscheduler.repository.ServiceRequestRepository;
 import com.appointmentscheduler.repository.TechnicianRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+@Component
 public class DataLoader implements CommandLineRunner {
     private final ServiceRequestRepository serviceRequestRepository;
     private final TechnicianRepository technicianRepository;
@@ -145,10 +147,10 @@ public class DataLoader implements CommandLineRunner {
         i1.setServiceRequests(Arrays.asList(s1));
 
         Inventory i7 = new Inventory();
-        i1.setPartName("Rotor");
-        i1.setAvailableParts(3);
-        i1.setOrderedParts(0);
-        i1.setServiceRequests(Arrays.asList(s1));
+        i7.setPartName("Rotor");
+        i7.setAvailableParts(3);
+        i7.setOrderedParts(0);
+        i7.setServiceRequests(Arrays.asList(s1));
 
         Inventory i2 = new Inventory();
         i2.setPartName("OBD Scanner");
@@ -163,10 +165,10 @@ public class DataLoader implements CommandLineRunner {
         i3.setServiceRequests(Arrays.asList(s3));
 
         Inventory i9 = new Inventory();
-        i3.setPartName("Filter");
-        i3.setAvailableParts(5);
-        i3.setOrderedParts(0);
-        i3.setServiceRequests(Arrays.asList(s3));
+        i9.setPartName("Filter");
+        i9.setAvailableParts(5);
+        i9.setOrderedParts(0);
+        i9.setServiceRequests(Arrays.asList(s3));
 
         Inventory i4 = new Inventory();
         i4.setPartName("Tires");
@@ -175,10 +177,10 @@ public class DataLoader implements CommandLineRunner {
         i4.setServiceRequests(Arrays.asList(s4));
 
         Inventory i10 = new Inventory();
-        i4.setPartName("Valvestems");
-        i4.setAvailableParts(4);
-        i4.setOrderedParts(0);
-        i4.setServiceRequests(Arrays.asList(s4));
+        i10.setPartName("Valvestems");
+        i10.setAvailableParts(4);
+        i10.setOrderedParts(0);
+        i10.setServiceRequests(Arrays.asList(s4));
 
         Inventory i5 = new Inventory();
         i5.setPartName("Battery");
@@ -193,10 +195,10 @@ public class DataLoader implements CommandLineRunner {
         i6.setServiceRequests(Arrays.asList(s6));
 
         Inventory i8 = new Inventory();
-        i6.setPartName("Thermostat");
-        i6.setAvailableParts(2);
-        i6.setOrderedParts(0);
-        i6.setServiceRequests(Arrays.asList(s6));
+        i8.setPartName("Thermostat");
+        i8.setAvailableParts(2);
+        i8.setOrderedParts(0);
+        i8.setServiceRequests(Arrays.asList(s6));
 
         inventoryRepository.saveAll(Arrays.asList(i1,i2,i3,i4,i5,i6,i7,i8,i9,i10));
 

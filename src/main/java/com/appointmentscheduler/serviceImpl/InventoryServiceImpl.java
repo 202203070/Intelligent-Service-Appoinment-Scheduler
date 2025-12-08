@@ -21,12 +21,20 @@ public class InventoryServiceImpl implements InventoryService {
         int max=0;
         for(Inventory inventory : inventoryList){
             if(inventory.getAvailableParts()==0){
+
+                System.out.println("start : "+inventory.getOrderedParts());
                 max=2;
                 inventory.setOrderedParts(inventory.getOrderedParts()+1);
+
+                System.out.println("end : "+inventory.getOrderedParts());
             }
             else{
+                System.out.println("available start : "+inventory.getAvailableParts());
                 inventory.setAvailableParts(inventory.getAvailableParts()-1);
+                System.out.println("available end : "+inventory.getAvailableParts());
             }
+
+            inventoryRepository.save(inventory);
         }
         return LocalDateTime.now().plusDays(max);
     }
